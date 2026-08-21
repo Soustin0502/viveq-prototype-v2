@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AnalysisRouteImport } from './routes/analysis'
 import { Route as CallRouteImport } from './routes/call'
+import { Route as DeclinedRouteImport } from './routes/declined'
 import { Route as DetailsRouteImport } from './routes/details'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -33,6 +34,11 @@ const AnalysisRoute = AnalysisRouteImport.update({
 const CallRoute = CallRouteImport.update({
   id: '/call',
   path: '/call',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeclinedRoute = DeclinedRouteImport.update({
+  id: '/declined',
+  path: '/declined',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DetailsRoute = DetailsRouteImport.update({
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analysis': typeof AnalysisRoute
   '/call': typeof CallRoute
+  '/declined': typeof DeclinedRoute
   '/details': typeof DetailsRoute
   '/how-it-works': typeof HowItWorksRoute
   '/privacy': typeof PrivacyRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analysis': typeof AnalysisRoute
   '/call': typeof CallRoute
+  '/declined': typeof DeclinedRoute
   '/details': typeof DetailsRoute
   '/how-it-works': typeof HowItWorksRoute
   '/privacy': typeof PrivacyRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/analysis': typeof AnalysisRoute
   '/call': typeof CallRoute
+  '/declined': typeof DeclinedRoute
   '/details': typeof DetailsRoute
   '/how-it-works': typeof HowItWorksRoute
   '/privacy': typeof PrivacyRoute
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
     | '/'
     | '/analysis'
     | '/call'
+    | '/declined'
     | '/details'
     | '/how-it-works'
     | '/privacy'
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/analysis'
     | '/call'
+    | '/declined'
     | '/details'
     | '/how-it-works'
     | '/privacy'
@@ -138,6 +149,7 @@ export interface FileRouteTypes {
     | '/'
     | '/analysis'
     | '/call'
+    | '/declined'
     | '/details'
     | '/how-it-works'
     | '/privacy'
@@ -151,6 +163,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalysisRoute: typeof AnalysisRoute
   CallRoute: typeof CallRoute
+  DeclinedRoute: typeof DeclinedRoute
   DetailsRoute: typeof DetailsRoute
   HowItWorksRoute: typeof HowItWorksRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -181,6 +194,13 @@ declare module '@tanstack/react-router' {
       path: '/call'
       fullPath: '/call'
       preLoaderRoute: typeof CallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/declined': {
+      id: '/declined'
+      path: '/declined'
+      fullPath: '/declined'
+      preLoaderRoute: typeof DeclinedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/details': {
@@ -239,6 +259,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalysisRoute: AnalysisRoute,
   CallRoute: CallRoute,
+  DeclinedRoute: DeclinedRoute,
   DetailsRoute: DetailsRoute,
   HowItWorksRoute: HowItWorksRoute,
   PrivacyRoute: PrivacyRoute,
