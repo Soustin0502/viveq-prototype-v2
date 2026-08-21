@@ -25,6 +25,12 @@ export const Route = createFileRoute("/simulation")({
 });
 
 function Simulation() {
+  // Starting a run clears any previous ended-call / shared-incident state.
+  useEffect(() => {
+    resetSimulation();
+  }, []);
+
+
   return (
     <Screen>
       <TopBar
