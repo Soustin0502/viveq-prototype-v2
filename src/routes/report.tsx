@@ -136,7 +136,7 @@ function Report() {
               </p>
             </div>
             <div className="flex gap-2">
-              <Btn variant="primary" onClick={() => setStage("shared")}>
+              <Btn variant="primary" onClick={shareIncident}>
                 Share Incident
               </Btn>
               <Btn variant="outline" onClick={() => setStage("consent")}>
