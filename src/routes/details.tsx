@@ -35,7 +35,7 @@ const groups = [
     ],
   },
   {
-    label: "Screen",
+    label: "Screen (simulated)",
     items: [{ name: "Suspicious financial instruction", confidence: 95 }],
   },
 ];
@@ -64,7 +64,14 @@ function Details() {
           <Label>Multimodal Risk Engine</Label>
           <RiskReadout score={94} level="CRITICAL" />
           <p className="text-[13px] leading-[1.6] text-muted-foreground">
-            Multiple independent scam indicators occurring together increase the assessed risk.
+            No single statement is proof of fraud. VIVEQ raises risk when multiple independent
+            indicators — across speech, behaviour and on-screen instructions — occur together in the
+            same interaction. Here, six indicators from three separate sources accumulated within a
+            single call.
+          </p>
+          <p className="text-[12px] leading-[1.6] text-subtle-foreground">
+            Screen signals are simulated in this prototype. Designed for privacy-preserving,
+            on-device analysis where technically feasible.
           </p>
         </Card>
       </Body>
