@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Body, Footer, Screen, TopBar } from "@/components/viveq/Shell";
 import { Btn, Card, Label } from "@/components/viveq/ui";
+import { setIncidentShared, useIncidentShared } from "@/lib/call-state";
+
 
 export const Route = createFileRoute("/report")({
   head: () => ({
