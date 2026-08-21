@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Footer, Screen } from "@/components/viveq/Shell";
 import { Btn, Dot, RiskBar, riskColor, type RiskLevel } from "@/components/viveq/ui";
+import { useReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/analysis")({
@@ -106,11 +107,16 @@ const timeline: Event[] = [
   },
 ];
 
-function useCountUp(target: number) {
+function useCountUp(target: number, instant = false) {
   const [value, setValue] = useState(0);
   const ref = useRef(0);
   useEffect(() => {
     const from = ref.current;
+    if (instant) {
+      ref.current = target;
+      setValue(target);
+      return;
+    }
     if (from === target) return;
     const start = performance.now();
     let raf = 0;
@@ -124,7 +130,7 @@ function useCountUp(target: number) {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [target]);
+  }, [target, instant]);
   return value;
 }
 
@@ -135,6 +141,44 @@ function useElapsed() {
     return () => clearInterval(id);
   }, []);
   return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+}
+
+const legend: { level: RiskLevel; dot: string }[] = [
+  { level: "LOW", dot: "bg-low" },
+  { level: "CAUTION", dot: "bg-caution" },
+  { level: "SUSPICIOUS", dot: "bg-suspicious" },
+  { level: "CRITICAL", dot: "bg-critical" },
+];
+
+function RiskLegend({ active }: { active: RiskLevel | null }) {
+  return (
+    <div className="flex items-center gap-2.5 pt-1">
+      <span className="label-micro">Risk</span>
+      <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+        {legend.map((l) => {
+          const on = l.level === active;
+          return (
+            <span
+              key={l.level}
+              className={cn(
+                "inline-flex items-center gap-1.5 text-[10px] tracking-[0.12em] transition-colors duration-300",
+                on ? riskColor(l.level).text : "text-subtle-foreground",
+              )}
+            >
+              <span
+                className={cn(
+                  "size-1 rounded-full",
+                  l.dot,
+                  on ? "opacity-100" : "opacity-30",
+                )}
+              />
+              {l.level}
+            </span>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 function Analysis() {
@@ -159,7 +203,8 @@ function Analysis() {
   const target = lastAnalysis && lastAnalysis.kind === "analysis" ? lastAnalysis.score : 0;
   const level: RiskLevel =
     lastAnalysis && lastAnalysis.kind === "analysis" ? lastAnalysis.level : "LOW";
-  const score = useCountUp(target);
+  const reducedMotion = useReducedMotion();
+  const score = useCountUp(target, reducedMotion);
   const c = riskColor(level);
 
   const nextIsUser = !done && timeline[count]?.kind === "user";
@@ -208,6 +253,7 @@ function Analysis() {
             </span>
           </div>
           <RiskBar score={score} level={level} />
+          <RiskLegend active={target === 0 ? null : level} />
         </div>
       </header>
 
