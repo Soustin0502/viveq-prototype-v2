@@ -21,7 +21,14 @@ export const Route = createFileRoute("/report")({
 });
 
 const willShare = ["Incident type", "Risk score", "Detected indicators", "Timestamp"];
-const willNotShare = ["Raw audio", "Raw video", "OTPs / passwords / banking credentials"];
+const willNotShare = [
+  "Raw audio",
+  "Raw video",
+  "Screen recordings or screenshots",
+  "OTPs / passwords / banking credentials",
+  "Contacts, messages or location",
+];
+
 
 function Report() {
   const [stage, setStage] = useState<"idle" | "consent" | "confirm" | "shared">("idle");
