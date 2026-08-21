@@ -13,7 +13,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AnalysisRouteImport } from './routes/analysis'
 import { Route as CallRouteImport } from './routes/call'
 import { Route as DetailsRouteImport } from './routes/details'
+import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as ReportRouteImport } from './routes/report'
 import { Route as SimulationRouteImport } from './routes/simulation'
+import { Route as VerifyRouteImport } from './routes/verify'
+import { Route as WarningRouteImport } from './routes/warning'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -35,9 +40,34 @@ const DetailsRoute = DetailsRouteImport.update({
   path: '/details',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HowItWorksRoute = HowItWorksRouteImport.update({
+  id: '/how-it-works',
+  path: '/how-it-works',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportRoute = ReportRouteImport.update({
+  id: '/report',
+  path: '/report',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SimulationRoute = SimulationRouteImport.update({
   id: '/simulation',
   path: '/simulation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerifyRoute = VerifyRouteImport.update({
+  id: '/verify',
+  path: '/verify',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WarningRoute = WarningRouteImport.update({
+  id: '/warning',
+  path: '/warning',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -46,14 +76,24 @@ export interface FileRoutesByFullPath {
   '/analysis': typeof AnalysisRoute
   '/call': typeof CallRoute
   '/details': typeof DetailsRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/privacy': typeof PrivacyRoute
+  '/report': typeof ReportRoute
   '/simulation': typeof SimulationRoute
+  '/verify': typeof VerifyRoute
+  '/warning': typeof WarningRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analysis': typeof AnalysisRoute
   '/call': typeof CallRoute
   '/details': typeof DetailsRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/privacy': typeof PrivacyRoute
+  '/report': typeof ReportRoute
   '/simulation': typeof SimulationRoute
+  '/verify': typeof VerifyRoute
+  '/warning': typeof WarningRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -61,14 +101,50 @@ export interface FileRoutesById {
   '/analysis': typeof AnalysisRoute
   '/call': typeof CallRoute
   '/details': typeof DetailsRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/privacy': typeof PrivacyRoute
+  '/report': typeof ReportRoute
   '/simulation': typeof SimulationRoute
+  '/verify': typeof VerifyRoute
+  '/warning': typeof WarningRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/analysis' | '/call' | '/details' | '/simulation'
+  fullPaths:
+    | '/'
+    | '/analysis'
+    | '/call'
+    | '/details'
+    | '/how-it-works'
+    | '/privacy'
+    | '/report'
+    | '/simulation'
+    | '/verify'
+    | '/warning'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/analysis' | '/call' | '/details' | '/simulation'
-  id: '__root__' | '/' | '/analysis' | '/call' | '/details' | '/simulation'
+  to:
+    | '/'
+    | '/analysis'
+    | '/call'
+    | '/details'
+    | '/how-it-works'
+    | '/privacy'
+    | '/report'
+    | '/simulation'
+    | '/verify'
+    | '/warning'
+  id:
+    | '__root__'
+    | '/'
+    | '/analysis'
+    | '/call'
+    | '/details'
+    | '/how-it-works'
+    | '/privacy'
+    | '/report'
+    | '/simulation'
+    | '/verify'
+    | '/warning'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,7 +152,12 @@ export interface RootRouteChildren {
   AnalysisRoute: typeof AnalysisRoute
   CallRoute: typeof CallRoute
   DetailsRoute: typeof DetailsRoute
+  HowItWorksRoute: typeof HowItWorksRoute
+  PrivacyRoute: typeof PrivacyRoute
+  ReportRoute: typeof ReportRoute
   SimulationRoute: typeof SimulationRoute
+  VerifyRoute: typeof VerifyRoute
+  WarningRoute: typeof WarningRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -109,11 +190,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DetailsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/how-it-works': {
+      id: '/how-it-works'
+      path: '/how-it-works'
+      fullPath: '/how-it-works'
+      preLoaderRoute: typeof HowItWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/report': {
+      id: '/report'
+      path: '/report'
+      fullPath: '/report'
+      preLoaderRoute: typeof ReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/simulation': {
       id: '/simulation'
       path: '/simulation'
       fullPath: '/simulation'
       preLoaderRoute: typeof SimulationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verify': {
+      id: '/verify'
+      path: '/verify'
+      fullPath: '/verify'
+      preLoaderRoute: typeof VerifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/warning': {
+      id: '/warning'
+      path: '/warning'
+      fullPath: '/warning'
+      preLoaderRoute: typeof WarningRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -124,7 +240,12 @@ const rootRouteChildren: RootRouteChildren = {
   AnalysisRoute: AnalysisRoute,
   CallRoute: CallRoute,
   DetailsRoute: DetailsRoute,
+  HowItWorksRoute: HowItWorksRoute,
+  PrivacyRoute: PrivacyRoute,
+  ReportRoute: ReportRoute,
   SimulationRoute: SimulationRoute,
+  VerifyRoute: VerifyRoute,
+  WarningRoute: WarningRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
