@@ -33,7 +33,7 @@ export function TopBar({
   right?: ReactNode;
 }) {
   return (
-    <header className="flex items-center justify-between border-b border-border px-5 py-4">
+    <header className="flex items-center justify-between border-b border-border px-5 py-4 pt-[max(1rem,env(safe-area-inset-top))] sm:pt-4">
       <div className="flex items-center gap-3">
         {back ? (
           <Link
@@ -61,7 +61,7 @@ export function Body({ children, className }: { children: ReactNode; className?:
 
 export function Footer({ children }: { children: ReactNode }) {
   return (
-    <footer className="sticky bottom-0 space-y-2 border-t border-border bg-background/95 px-5 py-4 backdrop-blur">
+    <footer className="sticky bottom-0 space-y-2 border-t border-border bg-background/95 px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur sm:pb-4">
       {children}
     </footer>
   );
