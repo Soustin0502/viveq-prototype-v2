@@ -18,8 +18,12 @@ export const Route = createFileRoute("/report")({
   component: Report,
 });
 
+const willShare = ["Incident type", "Risk score", "Detected indicators", "Timestamp"];
+const willNotShare = ["Raw audio", "Raw video", "OTPs / passwords / banking credentials"];
+
 function Report() {
-  const [shared, setShared] = useState(false);
+  const [stage, setStage] = useState<"idle" | "consent" | "confirm" | "shared">("idle");
+  const shared = stage === "shared";
 
   return (
     <Screen>
@@ -62,12 +66,38 @@ function Report() {
           </div>
         </div>
 
-        <Card className="bg-surface/40">
-          <p className="text-[13px] leading-[1.6] text-muted-foreground">
-            Evidence sharing requires your consent. Nothing is shared unless you explicitly choose
-            to share it. This is a simulated report — no data is transmitted.
-          </p>
-        </Card>
+        {stage === "consent" || stage === "confirm" ? (
+          <div className="space-y-3 animate-in-up">
+            <Card className="space-y-2">
+              <Label>Will be shared</Label>
+              {willShare.map((i) => (
+                <div key={i} className="flex items-center gap-3 text-[14px]">
+                  <span className="text-[12px] text-low">✓</span>
+                  <span>{i}</span>
+                </div>
+              ))}
+            </Card>
+            <Card className="space-y-2 border-critical/25 bg-critical/5">
+              <Label>Will not be shared</Label>
+              {willNotShare.map((i) => (
+                <div key={i} className="flex items-center gap-3 text-[14px]">
+                  <span className="text-[12px] text-critical">✕</span>
+                  <span>{i}</span>
+                </div>
+              ))}
+            </Card>
+            <p className="text-[13px] leading-[1.6] text-muted-foreground">
+              Nothing is shared unless you explicitly choose to share it.
+            </p>
+          </div>
+        ) : (
+          <Card className="bg-surface/40">
+            <p className="text-[13px] leading-[1.6] text-muted-foreground">
+              Evidence sharing requires your consent. Nothing is shared unless you explicitly choose
+              to share it. This is a simulated report — no data is transmitted.
+            </p>
+          </Card>
+        )}
 
         {shared ? (
           <div className="space-y-1">
@@ -79,12 +109,46 @@ function Report() {
         ) : null}
       </Body>
       <Footer>
-        <Btn variant="primary" onClick={() => setShared(true)} disabled={shared}>
-          {shared ? "Shared" : "Share Incident"}
-        </Btn>
-        <Btn variant="outline" to="/warning">
-          Not Now
-        </Btn>
+        {stage === "shared" ? (
+          <Btn variant="outline" to="/warning">
+            Back
+          </Btn>
+        ) : stage === "confirm" ? (
+          <>
+            <div className="pb-1">
+              <p className="text-[13px] font-medium">Share incident?</p>
+              <p className="mt-1 text-[12px] leading-[1.5] text-subtle-foreground">
+                Only the listed fields are included. This is simulated — no data is transmitted.
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Btn variant="primary" onClick={() => setStage("shared")}>
+                Share Incident
+              </Btn>
+              <Btn variant="outline" onClick={() => setStage("consent")}>
+                Go Back
+              </Btn>
+            </div>
+          </>
+        ) : stage === "consent" ? (
+          <>
+            <Btn variant="primary" onClick={() => setStage("confirm")}>
+              Review &amp; Share
+            </Btn>
+            <Btn variant="outline" onClick={() => setStage("idle")}>
+              Not Now
+            </Btn>
+          </>
+        ) : (
+          <>
+            <Btn variant="primary" onClick={() => setStage("consent")}>
+              Share Incident
+            </Btn>
+            <Btn variant="outline" to="/warning">
+              Not Now
+            </Btn>
+          </>
+        )}
       </Footer>
     </Screen>
   );

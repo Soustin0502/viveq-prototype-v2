@@ -48,7 +48,7 @@ function IncomingCall() {
         <div className="flex items-end justify-between px-4">
           <button
             type="button"
-            onClick={() => navigate({ to: "/simulation" })}
+            onClick={() => navigate({ to: "/declined" })}
             className="flex flex-col items-center gap-2"
           >
             <span className="flex size-16 items-center justify-center rounded-full bg-critical text-[oklch(0.15_0.006_260)] transition-transform active:scale-95">

@@ -137,3 +137,35 @@
 @utility animate-ring {
   animation: viveq-ring 1.8s ease-out infinite;
 }
+
+/* Reduced motion (Privacy Center → Accessibility). Keeps layout identical,
+   swaps motion for simple fades / static states. */
+@keyframes viveq-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.reduce-motion .animate-in-up {
+  animation: viveq-fade 0.18s linear both;
+}
+
+.reduce-motion .animate-dot,
+.reduce-motion .animate-ring {
+  animation: none;
+  opacity: 1;
+}
+
+.reduce-motion .animate-ring {
+  opacity: 0.35;
+}
+
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  transition-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+}
