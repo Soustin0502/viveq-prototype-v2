@@ -25,7 +25,19 @@ const willNotShare = ["Raw audio", "Raw video", "OTPs / passwords / banking cred
 
 function Report() {
   const [stage, setStage] = useState<"idle" | "consent" | "confirm" | "shared">("idle");
+  const alreadyShared = useIncidentShared();
   const shared = stage === "shared";
+
+  // A shared incident stays shared for the rest of the session.
+  useEffect(() => {
+    if (alreadyShared) setStage("shared");
+  }, [alreadyShared]);
+
+  const shareIncident = () => {
+    setIncidentShared(true);
+    setStage("shared");
+  };
+
 
   return (
     <Screen>
