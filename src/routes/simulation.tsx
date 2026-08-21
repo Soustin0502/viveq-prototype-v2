@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { Body, Footer, Screen, TopBar } from "@/components/viveq/Shell";
 import { Btn, Card, Label } from "@/components/viveq/ui";
+import { resetSimulation } from "@/lib/call-state";
+
 
 export const Route = createFileRoute("/simulation")({
   head: () => ({
