@@ -1,7 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Body, Footer, Screen } from "@/components/viveq/Shell";
 import { Btn, Card, Dot, Label, RiskBar } from "@/components/viveq/ui";
+import { setCallStage, useCallStage } from "@/lib/call-state";
+
 
 export const Route = createFileRoute("/warning")({
   head: () => ({
