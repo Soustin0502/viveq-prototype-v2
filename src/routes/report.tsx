@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Body, Footer, Screen, TopBar } from "@/components/viveq/Shell";
 import { Btn, Card, Label } from "@/components/viveq/ui";
+import { setIncidentShared, useIncidentShared } from "@/lib/call-state";
+
 
 export const Route = createFileRoute("/report")({
   head: () => ({
@@ -19,11 +21,30 @@ export const Route = createFileRoute("/report")({
 });
 
 const willShare = ["Incident type", "Risk score", "Detected indicators", "Timestamp"];
-const willNotShare = ["Raw audio", "Raw video", "OTPs / passwords / banking credentials"];
+const willNotShare = [
+  "Raw audio",
+  "Raw video",
+  "Screen recordings or screenshots",
+  "OTPs / passwords / banking credentials",
+  "Contacts, messages or location",
+];
+
 
 function Report() {
   const [stage, setStage] = useState<"idle" | "consent" | "confirm" | "shared">("idle");
+  const alreadyShared = useIncidentShared();
   const shared = stage === "shared";
+
+  // A shared incident stays shared for the rest of the session.
+  useEffect(() => {
+    if (alreadyShared) setStage("shared");
+  }, [alreadyShared]);
+
+  const shareIncident = () => {
+    setIncidentShared(true);
+    setStage("shared");
+  };
+
 
   return (
     <Screen>
@@ -122,7 +143,7 @@ function Report() {
               </p>
             </div>
             <div className="flex gap-2">
-              <Btn variant="primary" onClick={() => setStage("shared")}>
+              <Btn variant="primary" onClick={shareIncident}>
                 Share Incident
               </Btn>
               <Btn variant="outline" onClick={() => setStage("consent")}>

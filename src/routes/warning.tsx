@@ -1,7 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Body, Footer, Screen } from "@/components/viveq/Shell";
 import { Btn, Card, Dot, Label, RiskBar } from "@/components/viveq/ui";
+import { setCallStage, useCallStage } from "@/lib/call-state";
+
 
 export const Route = createFileRoute("/warning")({
   head: () => ({
@@ -29,7 +31,19 @@ const detected = [
 
 function Warning() {
   const navigate = useNavigate();
+  const persistedStage = useCallStage();
   const [stage, setStage] = useState<"idle" | "confirm" | "ended">("idle");
+
+  // The call stage survives navigation to Report / Details within the session.
+  useEffect(() => {
+    if (persistedStage === "ended") setStage("ended");
+  }, [persistedStage]);
+
+  const endCall = () => {
+    setCallStage("ended");
+    setStage("ended");
+  };
+
 
   return (
     <Screen className="border-critical/40 sm:border-critical/40">
@@ -111,7 +125,7 @@ function Warning() {
               </p>
             </div>
             <div className="flex gap-2">
-              <Btn variant="danger" onClick={() => setStage("ended")}>
+              <Btn variant="danger" onClick={endCall}>
                 End Call
               </Btn>
               <Btn variant="outline" onClick={() => setStage("idle")}>
