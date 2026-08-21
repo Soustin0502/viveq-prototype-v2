@@ -125,7 +125,7 @@ function Warning() {
               </p>
             </div>
             <div className="flex gap-2">
-              <Btn variant="danger" onClick={() => setStage("ended")}>
+              <Btn variant="danger" onClick={endCall}>
                 End Call
               </Btn>
               <Btn variant="outline" onClick={() => setStage("idle")}>
