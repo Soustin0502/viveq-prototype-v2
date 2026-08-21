@@ -64,15 +64,18 @@ function Report() {
 
         <Card className="bg-surface/40">
           <p className="text-[13px] leading-[1.6] text-muted-foreground">
-            Evidence sharing requires your consent. Nothing leaves this device unless you choose to
-            share it.
+            Evidence sharing requires your consent. Nothing is shared unless you explicitly choose
+            to share it. This is a simulated report — no data is transmitted.
           </p>
         </Card>
 
         {shared ? (
-          <p className="text-[13px] text-low">
-            ✓ Incident shared (simulated). You remain in control of this evidence.
-          </p>
+          <div className="space-y-1">
+            <p className="text-[13px] text-low">✓ Incident shared (simulated).</p>
+            <p className="text-[13px] text-muted-foreground">
+              You remain in control of this evidence.
+            </p>
+          </div>
         ) : null}
       </Body>
       <Footer>

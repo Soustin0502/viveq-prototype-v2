@@ -59,6 +59,9 @@ function Verify() {
         <Card className="border-critical/30 bg-critical/5">
           <Label>Verification result</Label>
           <p className="mt-1 font-display text-[22px] font-medium text-critical">HIGH RISK</p>
+          <p className="mt-1.5 text-[13px] text-muted-foreground">
+            4 independent indicators contributed to this assessment.
+          </p>
         </Card>
 
         <p className="text-[13px] leading-[1.6] text-muted-foreground">
