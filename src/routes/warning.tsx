@@ -31,7 +31,19 @@ const detected = [
 
 function Warning() {
   const navigate = useNavigate();
+  const persistedStage = useCallStage();
   const [stage, setStage] = useState<"idle" | "confirm" | "ended">("idle");
+
+  // The call stage survives navigation to Report / Details within the session.
+  useEffect(() => {
+    if (persistedStage === "ended") setStage("ended");
+  }, [persistedStage]);
+
+  const endCall = () => {
+    setCallStage("ended");
+    setStage("ended");
+  };
+
 
   return (
     <Screen className="border-critical/40 sm:border-critical/40">
