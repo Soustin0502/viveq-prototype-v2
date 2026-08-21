@@ -1,4 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { Body, Footer, Screen } from "@/components/viveq/Shell";
 import { Btn, Card, Dot, Label, RiskBar } from "@/components/viveq/ui";
 
@@ -28,6 +29,7 @@ const detected = [
 
 function Warning() {
   const navigate = useNavigate();
+  const [stage, setStage] = useState<"idle" | "confirm" | "ended">("idle");
 
   return (
     <Screen className="border-critical/40 sm:border-critical/40">
@@ -85,17 +87,53 @@ function Warning() {
       </Body>
 
       <Footer>
-        <Btn variant="danger" to="/">
-          Disconnect
-        </Btn>
-        <div className="flex gap-2">
-          <Btn variant="outline" to="/verify">
-            Verify
-          </Btn>
-          <Btn variant="outline" to="/report">
-            Report
-          </Btn>
-        </div>
+        {stage === "ended" ? (
+          <>
+            <div className="pb-1">
+              <p className="text-[13px] font-medium text-low">Interaction ended</p>
+              <p className="mt-1 text-[12px] leading-[1.5] text-subtle-foreground">
+                The simulated call has been disconnected.
+              </p>
+            </div>
+            <Btn variant="primary" to="/">
+              Return Home
+            </Btn>
+            <Btn variant="outline" to="/report">
+              View Incident
+            </Btn>
+          </>
+        ) : stage === "confirm" ? (
+          <>
+            <div className="pb-1">
+              <p className="text-[13px] font-medium">End interaction?</p>
+              <p className="mt-1 text-[12px] leading-[1.5] text-subtle-foreground">
+                This will end the simulated call.
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Btn variant="danger" onClick={() => setStage("ended")}>
+                End Call
+              </Btn>
+              <Btn variant="outline" onClick={() => setStage("idle")}>
+                Cancel
+              </Btn>
+            </div>
+          </>
+        ) : (
+          <>
+            <Btn variant="danger" onClick={() => setStage("confirm")}>
+              Disconnect
+            </Btn>
+            <div className="flex gap-2">
+              <Btn variant="outline" to="/verify">
+                Verify
+              </Btn>
+              <Btn variant="outline" to="/report">
+                Report
+              </Btn>
+            </div>
+          </>
+        )}
       </Footer>
     </Screen>
   );

@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Body, Footer, Screen, TopBar } from "@/components/viveq/Shell";
-import { Btn, Label } from "@/components/viveq/ui";
+import { Btn, Card, Label } from "@/components/viveq/ui";
+import { Switch } from "@/components/ui/switch";
+import { setReducedMotion, useReducedMotion } from "@/lib/motion";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
@@ -27,6 +29,7 @@ const rows = [
 ];
 
 function Privacy() {
+  const reduced = useReducedMotion();
   return (
     <Screen>
       <TopBar
@@ -50,6 +53,23 @@ function Privacy() {
               <span className="text-right text-[13px] text-muted-foreground">{v}</span>
             </div>
           ))}
+        </div>
+
+        <div>
+          <Label className="mb-2">Accessibility</Label>
+          <Card className="flex items-start justify-between gap-4">
+            <div className="space-y-1">
+              <p className="text-[14px] font-medium">Reduced Motion</p>
+              <p className="max-w-[26ch] text-[12px] leading-[1.5] text-subtle-foreground">
+                Reduce animations and transitions throughout VIVEQ.
+              </p>
+            </div>
+            <Switch
+              checked={reduced}
+              onCheckedChange={setReducedMotion}
+              aria-label="Reduced Motion"
+            />
+          </Card>
         </div>
 
         <div>
