@@ -87,7 +87,7 @@ function useCountUp(target: number) {
 function Analysis() {
   const [index, setIndex] = useState(0);
   const done = index >= steps.length - 1;
-  const current = steps[Math.min(index, steps.length - 1)];
+  const current = steps[Math.min(index, steps.length - 1)]!;
   const score = useCountUp(current.score);
   const level = current.level;
   const scrollRef = useRef<HTMLDivElement>(null);
